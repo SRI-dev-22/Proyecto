@@ -20,18 +20,35 @@ y = int((pantalla_ancho /2) - (ancho / 2))
 root.geometry("{}x{}+{}+{}".format( alto, ancho, x, y)) 
 #root(fill="both", expand=True)
 #root.widgets()
-
-def noexiste(self):
-        pass
+# la funcion donde esta guardar
+def guardar():
+    #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
+    file = filedialog.asksaveasfilename(initialfile="untitled.txt",
+                                        defaultextension=".txt",
+                                        file=[("All Files", "*.*"),
+                                              ("Text Documents", "*.txt")])
+    if file is None:
+        return
+    else:
+        # prueba de errores por si falla
+        try:
+             root.title(os.path.basename(file))
+             file = open(file, "w")
+             file.write(txtRes.get(1.0, END))
+        except EXCEPTION:
+            print("No se pudo guardar el Archivo!")
+        finally:
+            file.close
 
 
 # Menu Frame , llena x y lo posiciono encima
-menu = Frame(root, width=900, height=30, bg="blue")
-menu.pack(fill="x", side="top")
+menu_principal = Menu(root)
+root.config(menu=menu_principal)
 
-# Archivo Button , pongo el boton a la izquierda
-btnarchivo = Button(menu, text="Archivo", command=noexiste, fg="green", bg="white")
-btnarchivo.pack(side="left", padx=10)
+#el menu principal
+archivo_menu = Menu(menu_principal, tearoff=0)
+menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
+archivo_menu.add_command(label="Guardar", command=guardar)
 
 # Cuadro de texto con scroll , mejorado con fill="both" y expand=True
 p_aux = Frame(root)
