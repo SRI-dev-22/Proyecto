@@ -39,6 +39,25 @@ def guardar():
             print("No se pudo guardar el Archivo!")
         finally:
             file.close
+def guardar_como():
+       pass
+def abrir():
+    #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
+    file = askopenfilename(defaultextension=".txt",
+                                    	file=[("All Files", "*.*"),
+                                          	("Text Documents", "*.txt")])
+    try:
+        root.title(os.path.basename(file))
+        txtRes.delete(1.0, END)
+        file = open(file, "r")
+        txtRes.insert(1.0, file.read())
+    except EXCEPTION:
+        	print("No se pudo abrir el Archivo!")
+
+
+
+
+
 
 
 # Menu Frame , llena x y lo posiciono encima
@@ -48,7 +67,9 @@ root.config(menu=menu_principal)
 #el menu principal
 archivo_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
+archivo_menu.add_command(label="Abrir", command=abrir)
 archivo_menu.add_command(label="Guardar", command=guardar)
+archivo_menu.add_command(label="Guardar como", command=guardar_como)
 
 # Cuadro de texto con scroll , mejorado con fill="both" y expand=True
 p_aux = Frame(root)
