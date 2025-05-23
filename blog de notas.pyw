@@ -54,7 +54,14 @@ def abrir():
     except EXCEPTION:
         	print("No se pudo abrir el Archivo!")
 
+def cerrar_ventana():
+    """Cerrar la ventana principal y salir de la aplicación."""
+    root.quit()  
+    root.destroy()  
 
+def abrir_ventana():
+ root_top = Tk.Toplevel(root)
+ root_top.title("nueva ventana")
 
 
 
@@ -70,7 +77,10 @@ menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
 archivo_menu.add_command(label="Abrir", command=abrir)
 archivo_menu.add_command(label="Guardar", command=guardar)
 archivo_menu.add_command(label="Guardar como", command=guardar_como)
-
+Editar_menu = Menu(menu_principal, tearoff=0)
+menu_principal.add_cascade(label="Editar", menu=Editar_menu)
+Editar_menu.add_command(label="Cerrar ventana", command=cerrar_ventana)
+Editar_menu.add_command(label="abrir ventana", command=abrir_ventana)
 # Cuadro de texto con scroll , mejorado con fill="both" y expand=True
 p_aux = Frame(root)
 p_aux.pack(padx=10, pady=10, fill="both", expand=True)
