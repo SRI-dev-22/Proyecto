@@ -60,9 +60,21 @@ def cerrar_ventana():
     root.destroy()  
 
 def abrir_ventana():
- root_top = Tk.Toplevel(root)
- root_top.title("nueva ventana")
+    nueva_ventana = Toplevel(root)
+    nueva_ventana.title("Nueva Ventana")
+    nueva_ventana.geometry("{}x{}+{}+{}".format(alto, ancho, x, y))
+    
+    # Puedes añadir widgets a esta nueva ventana
+    p_aux = Frame(nueva_ventana)
+    p_aux.pack(padx=10, pady=10, fill="both", expand=True)
 
+    scroll = Scrollbar(p_aux)
+    scroll.pack(side='right', fill='y')
+
+    txtRes = Text(p_aux, width=100, height=30, yscrollcommand=scroll.set)
+    txtRes.pack(side="left", fill="both", expand=True)
+
+    scroll.config(command=txtRes.yview)  
 
 
 
