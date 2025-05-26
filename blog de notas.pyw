@@ -5,7 +5,6 @@ from tkinter import Tk, Label, Button, Entry, Frame, messagebox, Radiobutton, Te
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 # he puesto un geometry aqui 
-
 root = Tk()
 #alto y ancho de la ventana
 alto = 900
@@ -18,6 +17,8 @@ x = int((pantalla_alto /2) - (alto / 2))
 y = int((pantalla_ancho /2) - (ancho / 2))
 # ponemos el alto,ancho,x,y)
 root.geometry("{}x{}+{}+{}".format( alto, ancho, x, y)) 
+# este es mi icono
+root.iconbitmap("c:/Users/Jose/Desktop/Proyecto/Proyecto/icono.ico")
 #root(fill="both", expand=True)
 #root.widgets()
 # la funcion donde esta guardar
@@ -76,9 +77,6 @@ def abrir_ventana():
 
     scroll.config(command=txtRes.yview)  
 
-
-
-
 # Menu Frame , llena x y lo posiciono encima
 menu_principal = Menu(root)
 root.config(menu=menu_principal)
@@ -104,7 +102,6 @@ txtRes = Text(p_aux, width=100, height=30, yscrollcommand=scroll.set)
 txtRes.pack(side="left", fill="both", expand=True)
 
 scroll.config(command=txtRes.yview)
-
 
 root.wm_title("Mi blog de Notas(Rewrite)")
 root.mainloop()
