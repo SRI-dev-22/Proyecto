@@ -4,26 +4,35 @@ from tkinter import *
 from tkinter import Tk, Label, Button, Entry, Frame, messagebox, Radiobutton, Text, Scrollbar, IntVar, filedialog, colorchooser, font
 from tkinter.messagebox import *
 from tkinter.filedialog import *
-# he puesto un geometry aqui 
+#he puesto un geometry aqui 
 root = Tk()
 #alto y ancho de la ventana
 alto = 900
 ancho = 600
 #calcula el acto y ancho de la ventana del escritorio “window” no es valido deberia ser mainframe
-pantalla_alto = root.winfo_screenwidth()
-pantalla_ancho =  root.winfo_screenheight()
+pantalla_alto = root.winfo_screenheight()
+pantalla_ancho =  root.winfo_screenwidth()
 #calcula las posiciones “x” e “y”
 x = int((pantalla_alto /2) - (alto / 2))
 y = int((pantalla_ancho /2) - (ancho / 2))
-# ponemos el alto,ancho,x,y)
+#ponemos el alto,ancho,x,y)
 root.geometry("{}x{}+{}+{}".format( alto, ancho, x, y)) 
-# este es mi icono
-root.iconbitmap("c:/Users/Jose/Desktop/Proyecto/Proyecto/icono.ico")
+#este es mi icono, carga la ruta absoluta del icono, pero tiene que estar en la misma carpeta
+icono_path = os.path.join(os.path.dirname(__file__), "icono.png")
+
+#cargar el icono sin que se produca un error fatal
+try:
+    # lo guardo en una variable
+    icono = PhotoImage(file=icono_path)
+    #cargo la imagen
+    root.iconphoto(False, icono)
+except Exception:
+    print("No se pudo cargar el icono:")
 #root(fill="both", expand=True)
 #root.widgets()
-# la funcion donde esta guardar
-def guardar():
-    #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
+#la funcion donde esta guardar
+def guardar(text_widget):
+     #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
     file = filedialog.asksaveasfilename(initialfile="untitled.txt",
                                         defaultextension=".txt",
                                         file=[("All Files", "*.*"),
@@ -31,18 +40,18 @@ def guardar():
     if file is None:
         return
     else:
-        # prueba de errores por si falla
+        #prueba de errores por si falla
         try:
              root.title(os.path.basename(file))
              file = open(file, "w")
              file.write(txtRes.get(1.0, END))
-        except EXCEPTION:
+        except Exception:
             print("No se pudo guardar el Archivo!")
         finally:
-            file.close
+            file.close()
 def guardar_como():
-       pass
-def abrir():
+    pass
+def abrir(text_widget):
     #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
     file = askopenfilename(defaultextension=".txt",
                                     	file=[("All Files", "*.*"),
@@ -65,33 +74,40 @@ def abrir_ventana():
     nueva_ventana.title("Nueva Ventana")
     nueva_ventana.geometry("{}x{}+{}+{}".format(alto, ancho, x, y))
     
-    # Puedes añadir widgets a esta nueva ventana
+    menu_nuevo = Menu(nueva_ventana)
+    nueva_ventana.config(menu=menu_nuevo)
+
+    archivo_menu_nuevo = Menu(menu_nuevo, tearoff=0)
+    menu_nuevo.add_cascade(label="Archivo", menu=archivo_menu_nuevo)
+    archivo_menu_nuevo.add_command(label="Abrir", command=lambda: abrir(txtRes_nuevo))
+    archivo_menu_nuevo.add_command(label="Guardar", command=lambda: guardar(txtRes_nuevo))
+    #puedes añadir widgets a esta nueva ventana
     p_aux = Frame(nueva_ventana)
     p_aux.pack(padx=10, pady=10, fill="both", expand=True)
 
     scroll = Scrollbar(p_aux)
     scroll.pack(side='right', fill='y')
 
-    txtRes = Text(p_aux, width=100, height=30, yscrollcommand=scroll.set)
-    txtRes.pack(side="left", fill="both", expand=True)
+    txtRes_nuevo = Text(p_aux, width=100, height=30, yscrollcommand=scroll.set)
+    txtRes_nuevo.pack(side="left", fill="both", expand=True)
 
     scroll.config(command=txtRes.yview)  
 
-# Menu Frame , llena x y lo posiciono encima
+#menu Frame , llena x y lo posiciono encima
 menu_principal = Menu(root)
 root.config(menu=menu_principal)
 
 #el menu principal
 archivo_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
-archivo_menu.add_command(label="Abrir", command=abrir)
-archivo_menu.add_command(label="Guardar", command=guardar)
-archivo_menu.add_command(label="Guardar como", command=guardar_como)
+archivo_menu.add_command(label="Abrir", command=lambda: abrir(txtRes))
+archivo_menu.add_command(label="Guardar", command=lambda: guardar(txtRes))
+archivo_menu.add_command(label="Guardar como", command=lambda: guardar(txtRes))
 Editar_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Editar", menu=Editar_menu)
 Editar_menu.add_command(label="Cerrar ventana", command=cerrar_ventana)
-Editar_menu.add_command(label="abrir ventana", command=abrir_ventana)
-# Cuadro de texto con scroll , mejorado con fill="both" y expand=True
+Editar_menu.add_command(label="Abrir ventana", command=abrir_ventana)
+#cuadro de texto con scroll , mejorado con fill="both" y expand=True
 p_aux = Frame(root)
 p_aux.pack(padx=10, pady=10, fill="both", expand=True)
 
