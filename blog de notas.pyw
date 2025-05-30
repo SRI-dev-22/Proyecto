@@ -31,7 +31,7 @@ except Exception:
 #root(fill="both", expand=True)
 #root.widgets()
 #la funcion donde esta guardar
-def guardar(text_widget):
+def guardar(text_widget, ventana):
      #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
     file = filedialog.asksaveasfilename(initialfile="untitled.txt",
                                         defaultextension=".txt",
@@ -42,25 +42,25 @@ def guardar(text_widget):
     else:
         #prueba de errores por si falla
         try:
-             root.title(os.path.basename(file))
+             ventana.title(os.path.basename(file))
              file = open(file, "w")
-             file.write(txtRes.get(1.0, END))
+             file.write(text_widget.get(1.0, END))
         except Exception:
             print("No se pudo guardar el Archivo!")
         finally:
             file.close()
 def guardar_como():
     pass
-def abrir(text_widget):
+def abrir(text_widget, ventana):
     #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
     file = askopenfilename(defaultextension=".txt",
                                     	file=[("All Files", "*.*"),
                                           	("Text Documents", "*.txt")])
     try:
-        root.title(os.path.basename(file))
-        txtRes.delete(1.0, END)
+        ventana.title(os.path.basename(file))
+        text_widget.delete(1.0, END)
         file = open(file, "r")
-        txtRes.insert(1.0, file.read())
+        text_widget.insert(1.0, file.read())
     except EXCEPTION:
         	print("No se pudo abrir el Archivo!")
 
@@ -77,10 +77,7 @@ def abrir_ventana():
     menu_nuevo = Menu(nueva_ventana)
     nueva_ventana.config(menu=menu_nuevo)
 
-    archivo_menu_nuevo = Menu(menu_nuevo, tearoff=0)
-    menu_nuevo.add_cascade(label="Archivo", menu=archivo_menu_nuevo)
-    archivo_menu_nuevo.add_command(label="Abrir", command=lambda: abrir(txtRes_nuevo))
-    archivo_menu_nuevo.add_command(label="Guardar", command=lambda: guardar(txtRes_nuevo))
+   
     #puedes añadir widgets a esta nueva ventana
     p_aux = Frame(nueva_ventana)
     p_aux.pack(padx=10, pady=10, fill="both", expand=True)
@@ -92,7 +89,10 @@ def abrir_ventana():
     txtRes_nuevo.pack(side="left", fill="both", expand=True)
 
     scroll.config(command=txtRes.yview)  
-
+    archivo_menu_nuevo = Menu(menu_nuevo, tearoff=0)
+    menu_nuevo.add_cascade(label="Archivo", menu=archivo_menu_nuevo)
+    archivo_menu_nuevo.add_command(label="Abrir", command=lambda: abrir(txtRes_nuevo, nueva_ventana))
+    archivo_menu_nuevo.add_command(label="Guardar", command=lambda: guardar(txtRes_nuevo, nueva_ventana))
 #menu Frame , llena x y lo posiciono encima
 menu_principal = Menu(root)
 root.config(menu=menu_principal)
@@ -100,9 +100,9 @@ root.config(menu=menu_principal)
 #el menu principal
 archivo_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
-archivo_menu.add_command(label="Abrir", command=lambda: abrir(txtRes))
-archivo_menu.add_command(label="Guardar", command=lambda: guardar(txtRes))
-archivo_menu.add_command(label="Guardar como", command=lambda: guardar(txtRes))
+archivo_menu.add_command(label="Abrir", command=lambda: abrir(txtRes, root))
+archivo_menu.add_command(label="Guardar", command=lambda: guardar(txtRes, root))
+archivo_menu.add_command(label="Guardar como", command=lambda: guardar(txtRes, root))
 Editar_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Editar", menu=Editar_menu)
 Editar_menu.add_command(label="Cerrar ventana", command=cerrar_ventana)
