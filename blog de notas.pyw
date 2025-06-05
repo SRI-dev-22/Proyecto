@@ -39,6 +39,8 @@ def guardar(text_widget, ventana):
                                               ("Text Documents", "*.txt")])
     if file is None:
         return
+    elif file is (''):
+         pass
     else:
         #prueba de errores por si falla
         try:
@@ -56,12 +58,17 @@ def abrir(text_widget, ventana):
     file = askopenfilename(defaultextension=".txt",
                                     	file=[("All Files", "*.*"),
                                           	("Text Documents", "*.txt")])
-    try:
+    if file is None:
+        return
+    elif file is (''):
+         pass
+    else:
+     try:
         ventana.title(os.path.basename(file))
         text_widget.delete(1.0, END)
         file = open(file, "r")
         text_widget.insert(1.0, file.read())
-    except EXCEPTION:
+     except EXCEPTION:
         	print("No se pudo abrir el Archivo!")
 
 def cerrar_ventana():
