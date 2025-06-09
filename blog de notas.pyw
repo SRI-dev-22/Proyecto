@@ -19,7 +19,6 @@ y = int((pantalla_ancho /2) - (ancho / 2))
 root.geometry("{}x{}+{}+{}".format( alto, ancho, x, y)) 
 #este es mi icono, carga la ruta absoluta del icono, pero tiene que estar en la misma carpeta
 icono_path = os.path.join(os.path.dirname(__file__), "icono.png")
-
 #cargar el icono sin que se produca un error fatal
 try:
     # lo guardo en una variable
@@ -28,8 +27,6 @@ try:
     root.iconphoto(False, icono)
 except Exception:
     print("No se pudo cargar el icono:")
-#root(fill="both", expand=True)
-#root.widgets()
 #la funcion donde esta guardar
 def guardar(text_widget, ventana):
      #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
@@ -51,8 +48,6 @@ def guardar(text_widget, ventana):
             print("No se pudo guardar el Archivo!")
         finally:
             file.close()
-def guardar_como():
-    pass
 def abrir(text_widget, ventana):
     #aqui aparece la ventana donde guarda, puedes decirle el nombre por defecto, la extension por defecto y el tipo de fichero que quieres guardar
     file = askopenfilename(defaultextension=".txt",
@@ -84,7 +79,6 @@ def abrir_ventana():
     menu_nuevo = Menu(nueva_ventana)
     nueva_ventana.config(menu=menu_nuevo)
 
-   
     #puedes añadir widgets a esta nueva ventana
     p_aux = Frame(nueva_ventana)
     p_aux.pack(padx=10, pady=10, fill="both", expand=True)
@@ -109,7 +103,6 @@ archivo_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Archivo", menu=archivo_menu)
 archivo_menu.add_command(label="Abrir", command=lambda: abrir(txtRes, root))
 archivo_menu.add_command(label="Guardar", command=lambda: guardar(txtRes, root))
-archivo_menu.add_command(label="Guardar como", command=lambda: guardar(txtRes, root))
 Editar_menu = Menu(menu_principal, tearoff=0)
 menu_principal.add_cascade(label="Editar", menu=Editar_menu)
 Editar_menu.add_command(label="Cerrar ventana", command=cerrar_ventana)
@@ -126,5 +119,5 @@ txtRes.pack(side="left", fill="both", expand=True)
 
 scroll.config(command=txtRes.yview)
 
-root.wm_title("Mi blog de Notas(Rewrite)")
+root.wm_title("Rewrite")
 root.mainloop()
