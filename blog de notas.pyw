@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter import Tk, Label, Button, Entry, Frame, messagebox, Radiobutton, Text, Scrollbar, IntVar, filedialog, colorchooser, font
 from tkinter.messagebox import *
 from tkinter.filedialog import *
-#he puesto un geometry aqui 
+#la ventana principal 
 root = Tk()
 #alto y ancho de la ventana
 alto = 900
@@ -94,7 +94,7 @@ def abrir_ventana():
     menu_nuevo.add_cascade(label="Archivo", menu=archivo_menu_nuevo)
     archivo_menu_nuevo.add_command(label="Abrir", command=lambda: abrir(txtRes_nuevo, nueva_ventana))
     archivo_menu_nuevo.add_command(label="Guardar", command=lambda: guardar(txtRes_nuevo, nueva_ventana))
-#menu Frame , llena x y lo posiciono encima
+#La base del menu principal
 menu_principal = Menu(root)
 root.config(menu=menu_principal)
 
