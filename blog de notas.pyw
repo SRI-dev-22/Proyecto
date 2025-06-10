@@ -9,7 +9,7 @@ root = Tk()
 #alto y ancho de la ventana
 alto = 900
 ancho = 600
-#calcula el acto y ancho de la ventana del escritorio “window” no es valido deberia ser mainframe
+#calcula el acto y ancho de la ventana del escritorio 
 pantalla_alto = root.winfo_screenheight()
 pantalla_ancho =  root.winfo_screenwidth()
 #calcula las posiciones “x” e “y”
